@@ -70,7 +70,7 @@ The project follows a mandatory analytical architecture:
 | `TCS` | Tata Consultancy Services | IT / Software Services | NSE (India) |
 | `HDFCBANK` | HDFC Bank | Financials / Banking | NSE (India) |
 | `INFOSYS` | Infosys | IT / Software Services | NSE (India) |
-| `TATAMOTORS` | Tata Motors | Automotive / Manufacturing | NSE (India) |
+| `LT` | Larsen & Toubro | Infrastructure / Construction | NSE (India) |
 
 ### Dataset
 
@@ -87,7 +87,7 @@ data/raw/                    # Raw downloaded prices (never overwritten)
 ├── raw_prices_TCS.csv
 ├── raw_prices_HDFCBANK.csv
 ├── raw_prices_INFOSYS.csv
-├── raw_prices_TATAMOTORS.csv
+├── raw_prices_LT.csv
 └── combined_raw_prices.csv  # Combined for reference
 
 data/processed/              # Cleaned + derived data
@@ -96,12 +96,12 @@ data/processed/              # Cleaned + derived data
 ├── stock_returns_TCS.csv
 ├── stock_returns_HDFCBANK.csv
 ├── stock_returns_INFOSYS.csv
-├── stock_returns_TATAMOTORS.csv
+├── stock_returns_LT.csv
 ├── clean_prices_RELIANCE.csv
 ├── clean_prices_TCS.csv
 ├── clean_prices_HDFCBANK.csv
 ├── clean_prices_INFOSYS.csv
-└── clean_prices_TATAMOTORS.csv
+└── clean_prices_LT.csv
 ```
 
 ### Selection Rationale
