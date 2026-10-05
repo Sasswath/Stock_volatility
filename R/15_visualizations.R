@@ -28,7 +28,7 @@ section("1. Historical prices — five stocks")
 
 # Load raw prices and compute simple returns for plotting
 prices_list <- list()
-for (ticker in c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS")) {
+for (ticker in c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "LT")) {
   p <- read_csv(file.path(.project_root(), "data", "raw",
                           sprintf("raw_prices_%s.csv", ticker)),
                 show_col_types = FALSE)
@@ -37,7 +37,7 @@ for (ticker in c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS")) {
 
 prices_df <- bind_rows(prices_list, .id = "ticker") %>%
   mutate(ticker = factor(ticker, levels = c("RELIANCE", "TCS", "HDFCBANK",
-                                             "INFOSYS", "TATAMOTORS")))
+                                             "INFOSYS", "LT")))
 
 p_prices <- ggplot(prices_df, aes(x = date, y = adj_close, color = ticker)) +
   geom_line(linewidth = 1) +
@@ -90,7 +90,7 @@ vol_stats <- all_ret %>%
             SD = sd(log_ret)) %>%
   ungroup() %>%
   mutate(ticker = factor(ticker, levels = c("RELIANCE", "TCS", "HDFCBANK",
-                                             "INFOSYS", "TATAMOTORS")))
+                                             "INFOSYS", "LT")))
 
 p_vol <- ggplot(vol_stats, aes(x = ticker, y = AnnualVol * 100, fill = ticker)) +
   geom_bar(stat = "identity") +
@@ -126,9 +126,9 @@ cat_col(sprintf("  Saved: output/figures/boxplots_five_stocks.png\n"), "green")
 cat_col("\n" , "blue")
 section("5. Correlation heatmap — five stocks")
 
-stock_info_names <- c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS")
+stock_info_names <- c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "LT")
 ret_wide <- all_ret %>%
-  select(date, ticker, log_ret) %>%
+  dplyr::select(date, ticker, log_ret) %>%
   tidyr::pivot_wider(names_from = ticker, values_from = log_ret)
 
 # ensure we have all five
@@ -144,7 +144,7 @@ if (length(present) >= 2) {
   p_corr <- ggplot(cor_long, aes(x = Stock1, y = Stock2, fill = Correlation)) +
     geom_tile(color = "white") +
     geom_text(aes(label = round(Correlation, 2)), size = 4) +
-    scale_fill_viridis_c(low = "blue", high = "red", midpoint = 0) +
+    scale_fill_gradient2(low = "blue", high = "red", midpoint = 0) +
     labs(title = "Correlation Matrix — Five Stocks",
          x = "Stock", y = "Stock",
          subtitle = "Daily log returns, pairwise complete") +
@@ -169,7 +169,7 @@ rep_ret <- read_csv(file.path(.project_root(), "data", "processed",
 r <- rep_ret$log_ret
 
 p_dist <- ggplot(data.frame(r = r), aes(x = r)) +
-  geom_histogram(aes(y = ..density..), bins = 80,
+  geom_histogram(aes(y = after_stat(density)), bins = 80,
                  fill = "grey80", color = "black", alpha = 0.7) +
   stat_function(fun = function(x) dnorm(x, mean = mean(r), sd = sd(r)),
                 color = "red", linewidth = 1.2) +
@@ -190,7 +190,7 @@ section("7. Normal vs Student-t density overlay")
 rep_sel <- read_csv(file.path(.project_root(), "output",
                               "tables", "representative_stock_selection.csv"),
                     show_col_types = FALSE)
-rep_ticker <- rep_sel$Ticker[1]
+rep_ticker <- rep_sel$value[rep_sel$field == "Chosen representative ticker"]
 
 r <- rep_ret$log_ret
 mu_hat <- mean(r); sigma_hat <- sd(r)
@@ -209,7 +209,7 @@ cdf_normal <- dnorm(x_grid, mu_hat, sigma_hat)
 cdf_t <- dt((x_grid - mu_t) / scale_t, df_t) / scale_t
 
 p_density <- ggplot() +
-  geom_histogram(aes(x = r, y = ..density..), bins = 80,
+  geom_histogram(aes(x = r, y = after_stat(density)), bins = 80,
                  fill = "grey80", color = "black", alpha = 0.5) +
   geom_line(aes(x = x_grid, y = cdf_normal), color = "red", linewidth = 1.2,
             show.legend = TRUE, linetype = "dashed") +
@@ -306,7 +306,7 @@ extreme_pos <- r_sorted[seq(max(1, length(r_sorted) - 19), length(r_sorted))]
 
 # Plot histogram + extreme thresholds
 p_extreme <- ggplot(data.frame(r = r), aes(x = r)) +
-  geom_histogram(aes(y = ..density..), bins = 80,
+  geom_histogram(aes(y = after_stat(density)), bins = 80,
                  fill = "grey80", color = "black", alpha = 0.6) +
   geom_vline(xintercept = quantile(r, 0.01, names = FALSE),
              color = "red", linetype = "dashed", linewidth = 1) +
@@ -331,7 +331,7 @@ cat_col("\n" , "blue")
 section("11. CLT simulation figure")
 
 p_clt <- ggplot(data.frame(x = r), aes(x = x)) +
-  geom_histogram(aes(y = ..density..), bins = 60,
+  geom_histogram(aes(y = after_stat(density)), bins = 60,
                  fill = "steelblue", color = "white", alpha = 0.5) +
   geom_density(color = "black", linewidth = 1) +
   labs(title = "Central Limit Theorem Demonstration",
@@ -372,7 +372,7 @@ sim_df <- data.frame(
 )
 
 p_mc <- ggplot(sim_df, aes(x = return, fill = Model)) +
-  geom_histogram(aes(y = ..density..), bins = 80, alpha = 0.5, position = "identity") +
+  geom_histogram(aes(y = after_stat(density)), bins = 80, alpha = 0.5, position = "identity") +
   scale_fill_manual(name = "Model", values = c("Normal" = "red",
                                                 "Student-t" = "blue",
                                                 "Empirical" = "green")) +

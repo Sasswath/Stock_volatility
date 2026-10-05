@@ -72,9 +72,9 @@ cat_col(sprintf("  sigma (sd) : %.6f\n", sigma_hat), "cyan")
 cat_col(sprintf("  log-likelihood : %.4f\n", loglik_normal), "cyan")
 cat_col(sprintf("  AIC             : %.4f\n", aic_normal), "cyan")
 cat_col(sprintf("  BIC             : %.4f\n", bic_normal), "cyan")
-cat_col(sprintf("  Note: AIC/BIC are for RELATIVE comparison only; one model is\n", "white"))
-cat_col("  not necessarily 'true'.  A lower AIC/BIC only says the model\n", "white"))
-cat_col("  that balances fit and complexity better for THIS data.        ", "white"))
+cat_col("  Note: AIC/BIC are for RELATIVE comparison only; one model is\n", "white")
+cat_col("  not necessarily 'true'.  A lower AIC/BIC only says the model\n", "white")
+cat_col("  that balances fit and complexity better for THIS data.        \n", "white")
 
 # ---- 2. STUDENT'S t DISTRIBUTION (MLE) ---------------------------------------
 cat_col("\n" , "blue")
@@ -85,25 +85,27 @@ section("2. STUDENT'S t DISTRIBUTION — MLE", "=")
 #     gamma((df+1)/2) / ( gamma(df/2) * sqrt(df*pi) * scale )
 #     * ( 1 + (1/df) * ((x - loc)/scale)^2 ) ^ (-(df+1)/2)
 #
-# We fit with fitdistrplus::fitdistrplus which optimises the
-# negative log-likelihood via MLE.  Initialisation: mean, sd/1.7,
-# and df = 4.
-
-fit_student <- fitdistrplus::fitdistrplus(
-  r,
-  densfun = "t",
-  start   = list(location = mu_hat, scale = sigma_hat / 1.7, df = 4),
-  lower   = c(-Inf, 1e-6, 0.1),
-  upper   = c(Inf, Inf, 100)
-)
+# We fit with a manual MLE approach using optim since fitdist's "t"
+# distribution uses R's dt() which only has df (no location/scale).
+neg_loglik_t <- function(par) {
+  mu <- par[1]; sigma <- exp(par[2]); df <- exp(par[3])
+  -sum(dt((r - mu) / sigma, df = df, log = TRUE) - log(sigma))
+}
+fit0 <- optim(c(mu_hat, log(sigma_hat), log(4)),
+              neg_loglik_t, method = "L-BFGS-B")
 
 # Extract MLE estimates
-mu_t     <- as.numeric(unname(fit_student$estimate[1, 1]))
-scale_t  <- as.numeric(unname(fit_student$estimate[2, 1]))
-df_t     <- as.numeric(unname(fit_student$estimate[3, 1]))
+mu_t     <- fit0$par[1]
+scale_t  <- exp(fit0$par[2])
+df_t     <- exp(fit0$par[3])
 
-# Log-likelihood (fitdistrplus returns the maximised log-likelihood)
-loglik_t <- as.numeric(fit_student$loglik)
+# Log-likelihood
+loglik_t <- -fit0$value
+
+# Save t-fit params for downstream scripts
+t_params <- data.frame(mu = mu_t, scale = scale_t, df = df_t)
+write_csv(t_params,
+          file.path(.project_root(), "output", "tables", "t_fit_params.csv"))
 
 # AIC and BIC
 k_t <- 3   # location, scale, df
@@ -244,14 +246,14 @@ write_csv(model_summary,
 print_table(model_summary, caption = "Model comparison — Normal vs Student's t")
 
 cat_col("\n  LOG-LIKELIHOOD:  ", "white")
-cat_col(sprintf("The likelihood is the probability of the observed data", "white"))
-cat_col(sprintf("under each model.  Higher = better fit.      ", "white"))
-cat_col(sprintf("\n  AIC / BIC:      ", "white"))
-cat_col(sprintf("Lower = relatively better fit after penalising", "white"))
-cat_col(sprintf("extra parameters (Student-t has 1 more).", "white"))
-cat_col(sprintf("\n  INTERPRETATION:", "white"))
+cat_col("The likelihood is the probability of the observed data\n", "white")
+cat_col("under each model.  Higher = better fit.      \n", "white")
+cat_col("\n  AIC / BIC:      \n", "white")
+cat_col("Lower = relatively better fit after penalising\n", "white")
+cat_col("extra parameters (Student-t has 1 more).\n", "white")
+cat_col("\n  INTERPRETATION:\n", "white")
 card <- ifelse(aic_t < aic_normal, "The Student-t model has a lower AIC/BIC,",
                "The Normal model has a lower AIC/BIC,")
-cat_col(sprintf("  %s the Student-t model is selected as the preferred\n  empirical fit for tail behaviour.", card), "white"))
-cat_col(sprintf("  (In this project we report BOTH and interpret the\n", "white"))
-cat_col(sprintf("   difference, without declaring one 'correct'.)", "white"))
+cat_col(sprintf("  %s the Student-t model is selected as the preferred\n  empirical fit for tail behaviour.\n", card), "white")
+cat_col("  (In this project we report BOTH and interpret the\n", "white")
+cat_col("   difference, without declaring one 'correct'.)\n", "white")

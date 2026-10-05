@@ -1,0 +1,25 @@
+Asset,Method,Confidence,Value
+Representative stock,Historical,0.9,-1.6118935489803476
+Representative stock,Historical,0.95,-1.6118935489803476
+Representative stock,Historical,0.99,-1.6118935489803476
+Representative stock,Normal,0.9,-1.901707706976911
+Representative stock,Normal,0.95,-1.901707706976911
+Representative stock,Normal,0.99,-1.901707706976911
+Representative stock,Student-t,0.9,-1.6927304057968982
+Representative stock,Student-t,0.95,-1.6927304057968982
+Representative stock,Student-t,0.99,-1.6927304057968982
+Representative stock,Monte Carlo,0.9,-3.584988442687883
+Representative stock,Monte Carlo,0.95,-3.584988442687883
+Representative stock,Monte Carlo,0.99,-3.584988442687883
+Five-stock portfolio,Historical,0.9,8.37412154682657
+Five-stock portfolio,Historical,0.95,8.37412154682657
+Five-stock portfolio,Historical,0.99,8.37412154682657
+Five-stock portfolio,Normal,0.9,6.652786046230721
+Five-stock portfolio,Normal,0.95,6.652786046230721
+Five-stock portfolio,Normal,0.99,6.652786046230721
+Five-stock portfolio,Student-t,0.9,NA
+Five-stock portfolio,Student-t,0.95,NA
+Five-stock portfolio,Student-t,0.99,NA
+Five-stock portfolio,Monte Carlo,0.9,NA
+Five-stock portfolio,Monte Carlo,0.95,NA
+Five-stock portfolio,Monte Carlo,0.99,NA

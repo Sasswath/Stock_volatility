@@ -16,16 +16,15 @@
   if (nzchar(Sys.getenv("STOCK_VOL_PROJECT_ROOT"))) {
     return(Sys.getenv("STOCK_VOL_PROJECT_ROOT"))
   }
-  # Fall back to the directory of the sourcing script
-  normalizePath(sub("[/\\\\]?$", "", dirname(sys.frame(1)$ofile)), winslash = "/")
+  # Fall back to getwd() assuming it's run from the project root
+  getwd()
 }
 
 # Helper: resolve a path relative to the project root and ensure
 # the directory exists.
 project_path <- function(...) {
-  dirs <- c(.project_root(), list(...))
-  out <- file.path(dirs)
-  dir.create(out, showWarnings = FALSE, recursive = TRUE)
+  out <- file.path(.project_root(), ...)
+  dir.create(dirname(out), showWarnings = FALSE, recursive = TRUE)
   out
 }
 
@@ -94,10 +93,7 @@ cat_col <- function(text, colour = NULL) {
 # Print a data frame as a clean markdown-style table to the console.
 print_table <- function(df, caption = NULL, sep = " | ") {
   if (!is.null(caption)) cat(sprintf("\n-- %s --\n", caption))
-  # Auto-detect numeric vs character columns
-  fmt <- ifelse(widerThan10 <- sapply(df, function(x) max(nchar(as.character(x)), na.rm = TRUE)) > 10,
-                function(x) formatC(x, format = "f", digits = 4),
-                function(x) format(x, justify = "right"))
+
   df_print <- as.data.frame(lapply(seq_along(df), function(i) {
     if (is.numeric(df[[i]])) formatC(df[[i]], format = "f", digits = 4)
     else if (is.factor(df[[i]])) as.character(df[[i]])

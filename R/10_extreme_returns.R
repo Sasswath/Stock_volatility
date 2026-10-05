@@ -151,9 +151,9 @@ cat_col("\n  Simulated 1% and 5% tail thresholds (simulated from fitted models):
 print_table(tail_sim_table, caption = "Simulated tail thresholds — Historical vs Fitted models")
 
 # Interpretation
-cat_col("\n  INTERPRETATION:", "white")
-cat_col(sprintf("  The Normal model and the Student-t model will produce DIFFERENT", "white"))
-cat_col(sprintf("  tail estimates.  This difference is exactly what VaR analysis", "white"))
-cat_col(sprintf("  in script 14 will explore further.", "white"))
-cat_col(sprintf("  In general, heavy-tailed models (Student-t) assign MORE", "white"))
-cat_col(sprintf("  probability to extreme losses than the Normal model.", "white"))
+cat_col("\n  INTERPRETATION:\n", "white")
+cat_col("  The Normal model and the Student-t model will produce DIFFERENT\n", "white")
+cat_col("  tail estimates.  This difference is exactly what VaR analysis\n", "white")
+cat_col("  in script 14 will explore further.\n", "white")
+cat_col("  In general, heavy-tailed models (Student-t) assign MORE\n", "white")
+cat_col("  probability to extreme losses than the Normal model.\n", "white")

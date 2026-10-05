@@ -1,0 +1,8 @@
+Test,Statistic,p_value,Conclusion
+KS (Normal),0.0517,0,Evidence against Normal
+KS (Student-t),0.0165,0.8035,No evidence against t
+Shapiro-Wilk,0.9594,0,Significant (but n is large)
+Anderson-Darling (Normal),-2214.4493,0.321,OK (normal)
+Anderson-Darling (Student-t),-2515.3349,NA,NA
+Chi-square (Normal),75701.032,0,Poor fit in some bins
+Chi-square (Student-t),14.0091,0.122,OK (t)

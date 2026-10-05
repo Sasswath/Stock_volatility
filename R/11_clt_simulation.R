@@ -52,7 +52,7 @@ for (ni in ns) {
   # Use a matrix for speed
   idx <- matrix(sample.int(n_obs, size = ni * n_sim, replace = TRUE),
                 nrow = n_sim, ncol = ni)
-  sample_means <- rowMeans(r[idx])
+  sample_means <- rowMeans(matrix(r[idx], nrow = n_sim, ncol = ni))
 
   # Store
   means_list[[as.character(ni)]] <- sample_means
@@ -60,10 +60,10 @@ for (ni in ns) {
   # Standard error
   sigma_bar <- sd(r)
   se_theory <- sigma_bar / sqrt(ni)
-  se_empirical <- sd(sample_means)
+  se_emp <- sd(sample_means)
 
   se_theoretical[[as.character(ni)]] <- se_theory
-  se_empirical[[as.character(ni)]] <- se_empirical
+  se_empirical[[as.character(ni)]] <- se_emp
 
   # Skewness and kurtosis of the sampling distribution
   skew_list[[as.character(ni)]] <- moments::skewness(sample_means)
@@ -71,13 +71,13 @@ for (ni in ns) {
 
   # Plot the sampling distribution with Normal overlay
   p <- ggplot(data.frame(x = sample_means), aes(x = x)) +
-    geom_histogram(aes(y = ..density..), bins = 40,
+    geom_histogram(aes(y = after_stat(density)), bins = 40,
                    fill = "steelblue", color = "white", alpha = 0.7) +
     stat_function(fun = function(x) dnorm(x, mean = mean(sample_means),
-                                          sd = se_empirical[1]),
+                                          sd = se_emp),
                   color = "red", linewidth = 1.2,
                   aes(linewidth = I(1.2)), inherit.aes = FALSE) +
-    labs(title = sprintf("n = %d  |  SE_empirical ≈ %.4f%%", ni, se_empirical[1] * 100),
+    labs(title = sprintf("n = %d  |  SE_empirical ≈ %.4f%%", ni, se_emp * 100),
          subtitle = sprintf("Theoretical SE = %.4f%% (sigma/sqrt(n))",
                             se_theory * 100),
          x = "Sample mean", y = "Density") +
@@ -107,7 +107,7 @@ clt_summary <- data.frame(
   n       = ns,
   SE_theory = unlist(se_theoretical) * 100,
   SE_empirical = unlist(se_empirical) * 100,
-  Empirical_SE / Theoretical_SE = unlist(se_empirical) / unlist(se_theoretical),
+  Ratio = unlist(se_empirical) / unlist(se_theoretical),
   Skewness = unlist(skew_list),
   Kurtosis = unlist(kurt_list) - 3  # excess kurtosis
 )
@@ -118,17 +118,17 @@ write_csv(clt_summary,
 cat_col("\n  CLT summary table (SE identity check):", "white")
 print_table(clt_summary, caption = "Central Limit Theorem — standard error verification")
 
-cat_col(sprintf("\n  Observe:", "white"))
-cat_col(sprintf("    The empirical SE (sd of sample means) converges to the", "white"))
-cat_col(sprintf("    theoretical SE (sigma / sqrt(n)) as n grows.", "white"))
-cat_col(sprintf("    Skewness of the sampling distribution shrinks toward 0", "white"))
-cat_col(sprintf("    and excess kurtosis shrinks toward 0 (Normal).", "white"))
-cat_col(sprintf("    This is the CLT in action.", "white"))
+cat_col("\n  Observe:\n", "white")
+cat_col("    The empirical SE (sd of sample means) converges to the\n", "white")
+cat_col("    theoretical SE (sigma / sqrt(n)) as n grows.\n", "white")
+cat_col("    Skewness of the sampling distribution shrinks toward 0\n", "white")
+cat_col("    and excess kurtosis shrinks toward 0 (Normal).\n", "white")
+cat_col("    This is the CLT in action.\n", "white")
 
 # ---- Note: individual returns remain non-Normal -----------------------------------
 cat_col("\n" , "white")
-cat_col(sprintf("  CRITICAL REMINDER: The CLT is about the MEAN of samples,", "cyan"))
-cat_col(sprintf("  not about individual stock returns.  Individual returns of", "cyan"))
-cat_col(sprintf("  %s are still skewed and heavy-tailed.", "cyan"), rep_ticker)
-cat_col(sprintf("  The sampling distribution of the mean becomes approximately", "cyan"))
-cat_col(sprintf("  Normal even when the underlying population is not.", "cyan"))
+cat_col("\n  CRITICAL REMINDER: The CLT is about the MEAN of samples,\n", "cyan")
+cat_col("  not about individual stock returns.  Individual returns of\n", "cyan")
+cat_col(sprintf("  %s are still skewed and heavy-tailed.\n", rep_ticker), "cyan")
+cat_col("  The sampling distribution of the mean becomes approximately\n", "cyan")
+cat_col("  Normal even when the underlying population is not.\n", "cyan")

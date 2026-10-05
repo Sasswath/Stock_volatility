@@ -1,0 +1,22 @@
+REPRESENTATIVE STOCK SELECTION NOTE
+Date: 2026-10-05
+Chosen stock : TCS
+Company      : TCS
+Sector       : IT / Software Services
+
+RATIONALE
+---------
+The representative stock is selected using pre-specified, objective criteria
+documented in this file and in the five-stock comparative analysis (script 05).
+  (i) Sufficient observations: 1485 daily returns
+  (ii) Meaningful return variation (annualised vol 23.89%)
+  (iii) Noticeable but legitimate skewness (-0.282) and kurtosis (4.905)
+  (iv) Clean, complete data with no critical gaps
+
+IMPORTANT: The stock was NOT selected for producing the most dramatic or
+favourable result.  The other four stocks remain part of the comparative
+analysis and the equally weighted portfolio analysis.
+
+All subsequent statistical work (distribution fitting, CLT, Monte Carlo,
+extreme returns, VaR) is conducted on this single representative stock.
+The five-stock portfolio uses all five stocks.

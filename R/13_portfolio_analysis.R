@@ -23,25 +23,25 @@ all_ret <- read_csv(stock_prices, show_col_types = FALSE)
 
 # ensure a tidy format: date, ticker, log_ret
 ret_wide <- all_ret %>%
-  select(date, ticker, log_ret) %>%
+  dplyr::select(date, ticker, log_ret) %>%
   tidyr::pivot_wider(names_from = ticker, values_from = log_ret)
 
 # Ensure all five stocks are present
-available <- intersect(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS"),
+available <- intersect(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "LT"),
                        names(ret_wide))
-missing <- setdiff(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS"),
+missing <- setdiff(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "LT"),
                    available)
 if (length(missing) > 0) {
   cat_col(sprintf("  WARNING: Missing tickers: %s — skipping them from portfolio.\n",
                   paste(missing, collapse = ", ")), "yellow")
 }
 
-port_tick <- intersect(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS"),
+port_tick <- intersect(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "LT"),
                        available)
 
 # ---- 2. Daily portfolio return (equally weighted) ---------------------------------
 w <- rep(1 / length(port_tick), length(port_tick))  # 20% each
-port_return <- colSums(ret_wide[, port_tick, drop = FALSE] * w)
+port_return <- as.numeric(as.matrix(ret_wide[, port_tick, drop = FALSE]) %*% w)
 
 port_df <- data.frame(
   date   = ret_wide$date,
@@ -133,12 +133,12 @@ cat_col(sprintf("  Saved: output/figures/portfolio_performance.png\n"), "green")
 
 # ---- 8. Diversification conclusion ---------------------------------------------------
 cat_col("\n  DIVERSIFICATION CONCLUSION:", "white")
-cat_col(sprintf("    Portfolio vol (%.2f%%) vs average individual vol (%.2f%%)", "white"))
-cat_col(sprintf("    — the difference reflects the correlation between the stocks.", "white"))
-cat_col(sprintf("    If correlations were < 1, diversification would reduce", "white"))
-cat_col(sprintf("    portfolio volatility below the average individual volatility.", "white"))
-cat_col(sprintf("    If correlations were close to 1, diversification would have", "white"))
-cat_col(sprintf("    little effect.", "white"))
-cat_col(sprintf("    We do NOT claim diversification ALWAYS reduces risk —", "white"))
-cat_col(sprintf("    it reduces risk only when the constituent assets are NOT", "white"))
-cat_col(sprintf("    perfectly correlated.", "white"))
+cat_col("    Portfolio vol (%.2f%%) vs average individual vol (%.2f%%)\n", "white")
+cat_col("    — the difference reflects the correlation between the stocks.\n", "white")
+cat_col("    If correlations were < 1, diversification would reduce\n", "white")
+cat_col("    portfolio volatility below the average individual volatility.\n", "white")
+cat_col("    If correlations were close to 1, diversification would have\n", "white")
+cat_col("    little effect.\n", "white")
+cat_col("    We do NOT claim diversification ALWAYS reduces risk —\n", "white")
+cat_col("    it reduces risk only when the constituent assets are NOT\n", "white")
+cat_col("    perfectly correlated.\n", "white")

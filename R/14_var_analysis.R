@@ -32,14 +32,14 @@ all_ret <- read_csv(file.path(.project_root(), "data", "processed",
                               "stock_returns_combined.csv"),
                     show_col_types = FALSE)
 ret_wide <- all_ret %>%
-  select(date, ticker, log_ret) %>%
+  dplyr::select(date, ticker, log_ret) %>%
   tidyr::pivot_wider(names_from = ticker, values_from = log_ret)
 
-port_tick <- intersect(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "TATAMOTORS"),
+port_tick <- intersect(c("RELIANCE", "TCS", "HDFCBANK", "INFOSYS", "LT"),
                        names(ret_wide))
 
 w <- rep(1 / length(port_tick), length(port_tick))
-port_return <- colSums(ret_wide[, port_tick, drop = FALSE] * w)
+port_return <- colSums(ret_wide[, port_tick, drop = FALSE] * w, na.rm = TRUE)
 r_port <- port_return[!is.na(port_return)]
 
 # ---- 2. Confidence levels ------------------------------------------------------------
@@ -164,13 +164,12 @@ print_table(var_table, caption = "Value at Risk — representative stock and por
 
 # ---- 8. Interpretation notes -----------------------------------------------------------
 cat_col("\n  HOW TO READ VaR:", "white")
-cat_col(sprintf("    95%% VaR = the loss threshold not exceeded on 95%% of days", "white"))
-cat_col(sprintf("    (i.e., a loss worse than this happens on ~5% of trading days).", "white"))
-cat_col(sprintf("    VaR is a QUANTILE, NOT a maximum loss.", "white"))
-cat_col(sprintf("    The four methods can give quite different numbers because", "white"))
-cat_col(sprintf("    they make different assumptions about the distribution of", "white"))
-cat_col(sprintf("    extreme returns.", "white"))
-cat_col(sprintf("    Under the Normal model, the 99% VaR for the", "white"))
-cat_col(sprintf("    representative stock is approximately %.4f%%. Under the", "white"))
-cat_col(sprintf("    Student-t model it is approximately %.4f%.", "white"))
-cat_col(sprintf("    The difference is a direct consequence of the fat tails.", "white"))
+cat_col("    95% VaR = the loss threshold not exceeded on 95% of days\n", "white")
+cat_col("    (i.e., a loss worse than this happens on ~5% of trading days).\n", "white")
+cat_col("    VaR is a QUANTILE, NOT a maximum loss.\n", "white")
+cat_col("    The four methods can give quite different numbers because\n", "white")
+cat_col("    they make different assumptions about the distribution of\n", "white")
+cat_col("    extreme returns.\n", "white")
+cat_col(sprintf("    representative stock is approximately %.4f%%. Under the\n", var_normal(r_rep, 0.01, mu_hat, sigma_hat) * 100), "white")
+cat_col(sprintf("    Student-t model it is approximately %.4f%%.\n", var_student(r_rep, 0.01, mu_t, scale_t, df_t) * 100), "white")
+cat_col("    The difference is a direct consequence of the fat tails.\n", "white")

@@ -4,7 +4,7 @@
 # This makes the project fully portable (no absolute paths)
 
 # Store the project root so all scripts can find it
-project_root <- normalizePath(sub("[/\\\\]?$,", "", dirname(sys.frame(1)$ofile)), winslash = "/")
+project_root <- getwd()
 
 # Source shared utilities if they exist
 utils_dir <- file.path(project_root, "R")

@@ -1,0 +1,6 @@
+company,sector,start_date,end_date,n_obs,source
+RELIANCE,Energy / Oil & Gas,2020-01-01,2025-12-30,1486,NSE via quantmod (Yahoo Finance)
+TCS,IT / Software Services,2020-01-01,2025-12-30,1486,NSE via quantmod (Yahoo Finance)
+HDFCBANK,Financials / Banking,2020-01-01,2025-12-30,1486,NSE via quantmod (Yahoo Finance)
+INFOSYS,IT / Software Services,2020-01-01,2025-12-30,1486,NSE via quantmod (Yahoo Finance)
+LT,Manufacturing / Infrastructure,2020-01-01,2025-12-30,1486,NSE via quantmod (Yahoo Finance)

@@ -1,16 +1,13 @@
 Version: 1.0
-Package: flexMDE
-AutoAppendVersionToFileName: false
-Language: en
+
 RestoreWorkspace: Default
 SaveWorkspace: Default
-alwaysSaveHistory: false
-DisableWelcomeWindow: false
-EnableCodeIndexing: true
-Disable scientist: false
-EnableSyntaxHighlighting: true
+AlwaysSaveHistory: Default
+
+EnableCodeIndexing: Yes
+UseSpacesForTab: Yes
+NumSpacesForTab: 2
 Encoding: UTF-8
-UseWireframe: false
-TimeoutForSilentEvaluation: 1000
-VerifyDocuments: false
-Rvv: 4.3.0
+
+RnwWeave: Sweave
+LaTeX: pdfLaTeX

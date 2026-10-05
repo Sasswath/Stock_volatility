@@ -1,0 +1,203 @@
+========================================================
+
+  DATA CLEANING LOG
+
+  Date: 2026-10-05 00:00:00
+
+========================================================
+
+
+--- HDFCBANK ---
+
+A. Data types
+  class(date): Date
+  class(adj_close): numeric
+  class(ticker): character
+  class(company): character
+  Non-numeric adj_close rows: 0
+
+B. Duplicate dates
+  Duplicate dates: 0
+
+C. Missing values
+  No NA prices.
+
+D. Impossible / invalid prices
+  Rows with adj_close <= 0: 0
+
+E. Date ordering
+  Dates sorted ascending: TRUE
+
+F. Trading-day completeness
+  Date range: 2020-01-01 to 2025-12-30  (2191 days)
+  Actual trading days: 1486
+  Expected NYSE-equivalent trading days (252/yr * yrs): 1512
+
+G. Extreme observations (kept — NOT auto-removed)
+  Rows with |z| > 4 (extreme price moves): 0 of 1486
+
+H. Daily returns
+  Returns computed: 1485 (NAs: 1, first obs)
+  Rows with |z_ret| > 5 (extreme returns): 4
+  Extreme returns are EXPOSED here and retained for analysis.
+
+  CLEANED -> data/processed/clean_prices_HDFCBANK.csv (1486 rows)
+
+  Cleaning decisions logged in output/tables/cleaning_log.txt
+
+
+--- INFOSYS ---
+
+A. Data types
+  class(date): Date
+  class(adj_close): numeric
+  class(ticker): character
+  class(company): character
+  Non-numeric adj_close rows: 0
+
+B. Duplicate dates
+  Duplicate dates: 0
+
+C. Missing values
+  No NA prices.
+
+D. Impossible / invalid prices
+  Rows with adj_close <= 0: 0
+
+E. Date ordering
+  Dates sorted ascending: TRUE
+
+F. Trading-day completeness
+  Date range: 2020-01-01 to 2025-12-30  (2191 days)
+  Actual trading days: 1486
+  Expected NYSE-equivalent trading days (252/yr * yrs): 1512
+
+G. Extreme observations (kept — NOT auto-removed)
+  Rows with |z| > 4 (extreme price moves): 0 of 1486
+
+H. Daily returns
+  Returns computed: 1485 (NAs: 1, first obs)
+  Rows with |z_ret| > 5 (extreme returns): 7
+  Extreme returns are EXPOSED here and retained for analysis.
+
+  CLEANED -> data/processed/clean_prices_INFOSYS.csv (1486 rows)
+
+  Cleaning decisions logged in output/tables/cleaning_log.txt
+
+
+--- LT ---
+
+A. Data types
+  class(date): Date
+  class(adj_close): numeric
+  class(ticker): character
+  class(company): character
+  Non-numeric adj_close rows: 0
+
+B. Duplicate dates
+  Duplicate dates: 0
+
+C. Missing values
+  No NA prices.
+
+D. Impossible / invalid prices
+  Rows with adj_close <= 0: 0
+
+E. Date ordering
+  Dates sorted ascending: TRUE
+
+F. Trading-day completeness
+  Date range: 2020-01-01 to 2025-12-30  (2191 days)
+  Actual trading days: 1486
+  Expected NYSE-equivalent trading days (252/yr * yrs): 1512
+
+G. Extreme observations (kept — NOT auto-removed)
+  Rows with |z| > 4 (extreme price moves): 0 of 1486
+
+H. Daily returns
+  Returns computed: 1485 (NAs: 1, first obs)
+  Rows with |z_ret| > 5 (extreme returns): 8
+  Extreme returns are EXPOSED here and retained for analysis.
+
+  CLEANED -> data/processed/clean_prices_LT.csv (1486 rows)
+
+  Cleaning decisions logged in output/tables/cleaning_log.txt
+
+
+--- RELIANCE ---
+
+A. Data types
+  class(date): Date
+  class(adj_close): numeric
+  class(ticker): character
+  class(company): character
+  Non-numeric adj_close rows: 0
+
+B. Duplicate dates
+  Duplicate dates: 0
+
+C. Missing values
+  No NA prices.
+
+D. Impossible / invalid prices
+  Rows with adj_close <= 0: 0
+
+E. Date ordering
+  Dates sorted ascending: TRUE
+
+F. Trading-day completeness
+  Date range: 2020-01-01 to 2025-12-30  (2191 days)
+  Actual trading days: 1486
+  Expected NYSE-equivalent trading days (252/yr * yrs): 1512
+
+G. Extreme observations (kept — NOT auto-removed)
+  Rows with |z| > 4 (extreme price moves): 0 of 1486
+
+H. Daily returns
+  Returns computed: 1485 (NAs: 1, first obs)
+  Rows with |z_ret| > 5 (extreme returns): 4
+  Extreme returns are EXPOSED here and retained for analysis.
+
+  CLEANED -> data/processed/clean_prices_RELIANCE.csv (1486 rows)
+
+  Cleaning decisions logged in output/tables/cleaning_log.txt
+
+
+--- TCS ---
+
+A. Data types
+  class(date): Date
+  class(adj_close): numeric
+  class(ticker): character
+  class(company): character
+  Non-numeric adj_close rows: 0
+
+B. Duplicate dates
+  Duplicate dates: 0
+
+C. Missing values
+  No NA prices.
+
+D. Impossible / invalid prices
+  Rows with adj_close <= 0: 0
+
+E. Date ordering
+  Dates sorted ascending: TRUE
+
+F. Trading-day completeness
+  Date range: 2020-01-01 to 2025-12-30  (2191 days)
+  Actual trading days: 1486
+  Expected NYSE-equivalent trading days (252/yr * yrs): 1512
+
+G. Extreme observations (kept — NOT auto-removed)
+  Rows with |z| > 4 (extreme price moves): 0 of 1486
+
+H. Daily returns
+  Returns computed: 1485 (NAs: 1, first obs)
+  Rows with |z_ret| > 5 (extreme returns): 2
+  Extreme returns are EXPOSED here and retained for analysis.
+
+  CLEANED -> data/processed/clean_prices_TCS.csv (1486 rows)
+
+  Cleaning decisions logged in output/tables/cleaning_log.txt
+

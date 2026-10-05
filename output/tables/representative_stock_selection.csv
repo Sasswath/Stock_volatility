@@ -1,0 +1,11 @@
+field,value
+Chosen representative ticker,TCS
+Company,TCS
+Sector,IT / Software Services
+Observation count,1485
+Annualized volatility,23.8940%
+Skewness,-0.2820
+Excess kurtosis,4.9053
+Selection criteria,>1000 daily obs; meaningful vol; notable but legitimate skew/kurt; clean data
+Basis for choice,Lowest composite score across objective criteria; NOT selected for dramatic results
+Date selected,2026-10-05

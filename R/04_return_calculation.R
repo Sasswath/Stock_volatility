@@ -28,7 +28,7 @@ cat_col(sprintf("\nLoading cleaned price data for %d stock(s)...\n",
 
 price_list <- list()
 for (f in clean_files) {
-  ticker <- sub("clean_prices_|\\.csv", "", basename(f))
+  ticker <- gsub("clean_prices_|\\.csv", "", basename(f))
   # avoid overwriting unique ticker from combined file
   if (ticker == "combined_raw_prices") ticker <- "ALL"
   df <- read_csv(f, show_col_types = FALSE)
@@ -76,7 +76,7 @@ for (ticker in names(price_list)) {
 }
 
 # ---- combined returns table (for later use) ------------------------------------
-all_returns <- bind_rows(lapply(ret_list, function(x) x %>% select(ticker, date, log_ret)))
+all_returns <- bind_rows(lapply(ret_list, function(x) x %>% dplyr::select(ticker, date, log_ret)))
 write_csv(all_returns,
           file.path(.project_root(), "data", "processed", "stock_returns_combined.csv"))
 

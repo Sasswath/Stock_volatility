@@ -144,7 +144,7 @@ sim_df <- data.frame(
 )
 
 p_sim_hist <- ggplot(sim_df, aes(x = return, fill = Model)) +
-  geom_histogram(aes(y = ..density..), bins = 80, alpha = 0.5, position = "identity") +
+  geom_histogram(aes(y = after_stat(density)), bins = 80, alpha = 0.5, position = "identity") +
   scale_fill_manual(name = "Model", values = c("Normal" = "red",
                                                 "Student-t" = "blue",
                                                 "Empirical" = "green")) +
@@ -161,11 +161,11 @@ cat_col(sprintf("  Saved: output/figures/monte_carlo_simulation.png\n"), "green"
 
 # ---- 6. Key takeaways ----------------------------------------------------------------
 cat_col("\n" , "white")
-cat_col(sprintf("  KEY TAKEAWAYS:", "cyan"))
-cat_col(sprintf("    -- The Normal and Student-t models produce DIFFERENT tail", "white"))
-cat_col(sprintf("       estimates.  In this demo, which of the two tail estimates", "white"))
-cat_col(sprintf("       is LARGER depends on the data.  This is exactly the", "white"))
-cat_col(sprintf("       model-dependence we highlight with VaR in script 14.", "white"))
-cat_col(sprintf("    -- Simulated 'returns' are model-based.  They are not", "white"))
-cat_col(sprintf("       forecasts.  They do not say what will happen next", "white"))
-cat_col(sprintf("       trading day.", "white"))
+cat_col("  KEY TAKEAWAYS:\n", "cyan")
+cat_col("    -- The Normal and Student-t models produce DIFFERENT tail\n", "white")
+cat_col("       estimates.  In this demo, which of the two tail estimates\n", "white")
+cat_col("       is LARGER depends on the data.  This is exactly the\n", "white")
+cat_col("       model-dependence we highlight with VaR in script 14.\n", "white")
+cat_col("    -- Simulated 'returns' are model-based.  They are not\n", "white")
+cat_col("       forecasts.  They do not say what will happen next\n", "white")
+cat_col("       trading day.\n", "white")

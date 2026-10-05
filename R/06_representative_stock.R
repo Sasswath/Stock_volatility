@@ -55,7 +55,7 @@ chosen <- criteria %>% slice(1)
 
 cat_col(sprintf("  Chosen ticker : %s\n", chosen$Ticker), "cyan")
 cat_col(sprintf("  Company       : %s\n", chosen$Company), "cyan")
-cat_col(sprintf("  Sector        : %s\n", chosen$Sector), "cyan")
+cat_col(sprintf("  Sector        : %s\n", stock_info[[chosen$Ticker]]$sector), "cyan")
 cat_col(sprintf("  Observations  : %d\n", chosen$Rows), "cyan")
 cat_col(sprintf("  Annual vol    : %.2f%%\n", chosen$AnnualVol * 100), "cyan")
 cat_col(sprintf("  Skewness      : %.3f\n", chosen$Skewness), "cyan")
@@ -80,7 +80,7 @@ selection_doc <- data.frame(
   value = c(
     chosen$Ticker,
     chosen$Company,
-    chosen$Sector,
+    stock_info[[chosen$Ticker]]$sector,
     chosen$Rows,
     sprintf("%.4f%%", chosen$AnnualVol * 100),
     sprintf("%.4f", chosen$Skewness),
@@ -100,7 +100,7 @@ selection_note <- c(
   paste("Date:", format(Sys.Date(), "%Y-%m-%d")),
   paste("Chosen stock :", chosen$Ticker),
   paste("Company      :", chosen$Company),
-  paste("Sector       :", chosen$Sector),
+  paste("Sector       :", stock_info[[chosen$Ticker]]$sector),
   "",
   "RATIONALE",
   "---------",
@@ -144,5 +144,6 @@ rep_ret <- read_csv(file.path(.project_root(), "data", "processed",
 stopifnot(nrow(rep_ret) == chosen$Rows)
 
 # Save a tidy file the downstream scripts can source
+dir.create(file.path(.project_root(), "output", "processed"), showWarnings = FALSE, recursive = TRUE)
 saveRDS(rep_ret, file.path(.project_root(), "output",
                             "processed", "representative_returns.rds"))

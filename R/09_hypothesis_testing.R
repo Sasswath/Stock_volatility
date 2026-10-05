@@ -57,12 +57,12 @@ if (t_test$p.value < alpha) {
   cat_col("  daily return is different from zero.", "cyan")
 }
 
-cat_col(sprintf("\n  PRACTICAL SIGNIFICANCE:", "white"))
-cat_col(sprintf("  The mean daily return is %.4f%%. Over a full year\n", "white"))
-cat_col(sprintf("  (252 trading days) the average cumulative return is approximately\n", "white"))
-cat_col(sprintf("  %.2f%%. This is a small number economically, even if it is\n", "white"))
-cat_col(sprintf("  statistically detectable with n = %d observations.", "white"))
-cat_col(sprintf("  Statistical significance does not equal economic importance.", "white"))
+cat_col("\n  PRACTICAL SIGNIFICANCE:\n", "white")
+cat_col(sprintf("  The mean daily return is %.4f%%. Over a full year\n", mean(r) * 100), "white")
+cat_col("  (252 trading days) the average cumulative return is approximately\n", "white")
+cat_col(sprintf("  %.2f%%. This is a small number economically, even if it is\n", mean(r) * 252 * 100), "white")
+cat_col(sprintf("  statistically detectable with n = %d observations.\n", n), "white")
+cat_col("  Statistical significance does not equal economic importance.\n", "white")
 
 # -----------------------------------------------------------------------
 # Test 2: Volatility comparison between representative stock and
@@ -116,8 +116,8 @@ se_skew <- sqrt(6 / n)
 z_skew <- skew_stat / se_skew
 p_skew <- 2 * (1 - pnorm(abs(z_skew)))
 
-cat_col(sprintf("  H0: skewness = 0\n", "cyan"))
-cat_col(sprintf("  H1: skewness != 0\n", "cyan"))
+cat_col("  H0: skewness = 0\n", "cyan")
+cat_col("  H1: skewness != 0\n", "cyan")
 cat_col(sprintf("  Sample skewness = %.4f\n", skew_stat), "cyan")
 cat_col(sprintf("  z-statistic     = %.4f\n", z_skew), "cyan")
 cat_col(sprintf("  p-value         = %.4f\n", p_skew), "cyan")
@@ -146,8 +146,8 @@ se_kurt <- sqrt(24 / n)
 z_kurt <- excess_kurt / se_kurt
 p_kurt <- 2 * (1 - pnorm(abs(z_kurt)))
 
-cat_col(sprintf("  H0: excess kurtosis = 0 (Normal tails)\n", "cyan"))
-cat_col(sprintf("  H1: excess kurtosis != 0 (heavy or light tails)\n", "cyan"))
+cat_col("  H0: excess kurtosis = 0 (Normal tails)\n", "cyan")
+cat_col("  H1: excess kurtosis != 0 (heavy or light tails)\n", "cyan")
 cat_col(sprintf("  Sample excess kurtosis = %.4f\n", excess_kurt), "cyan")
 cat_col(sprintf("  z-statistic     = %.4f\n", z_kurt), "cyan")
 cat_col(sprintf("  p-value         = %.4f\n", p_kurt), "cyan")

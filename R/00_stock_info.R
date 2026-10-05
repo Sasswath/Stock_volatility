@@ -49,9 +49,9 @@ stock_info <- list(
     end_date      = as.Date("2025-12-31"),
     n_obs         = NA
   ),
-  TATAMOTORS  = list(
-    company       = "Tata Motors Limited",
-    sector        = "Automotive / Manufacturing",
+  LT          = list(
+    company       = "Larsen & Toubro Limited",
+    sector        = "Manufacturing / Infrastructure",
     market        = "NSE (India)",
     data_source   = "NSE via quantmod (Yahoo Finance)",
     start_date    = as.Date("2020-01-01"),
@@ -66,7 +66,7 @@ ticker_map <- c(
   "TCS"         = "TCS",
   "HDFCBANK"    = "HDFCBANK",
   "INFOSYS"     = "INFOSYS",
-  "TATAMOTORS"  = "TATAMOTORS"
+  "LT"          = "LT"
 )
 
 # sector -> colour palette for consistent visuals

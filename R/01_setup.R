@@ -19,7 +19,7 @@
 # .Rprofile already sets .project_root(), but for a clean session we also
 # detect it here explicitly.
 
-.root <- normalizePath(sub("[/\\\\]?$", "", dirname(sys.frame(1)$ofile)), winslash = "/")
+.root <- getwd()
 if (!dir.exists(file.path(.root, "data"))) {
   stop("Could not find the project root. Please open stock-volatility-project.Rproj and work from the project directory.")
 }

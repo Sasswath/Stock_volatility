@@ -37,22 +37,20 @@ section("1. Kolmogorov-Smirnov (KS) Test", "=")
 set_project_seed(42)
 n_sim <- 2000
 
-ks_stat_normal <- function(data, mu, sigma) {
-  ks.test(data, "pnorm", mu = mu, sigma = sigma)$statistic
-}
+ks_stat_normal <- ks.test(r, "pnorm", mean = mu_hat, sd = sigma_hat)$statistic
 
 ks_sim <- numeric(n_sim)
 for (i in seq_len(n_sim)) {
   sim <- rnorm(n, mean = mu_hat, sd = sigma_hat)
-  ks_sim[i] <- ks.test(sim, "pnorm", mu = mu_hat, sigma = sigma_hat)$statistic
+  ks_sim[i] <- ks.test(sim, "pnorm", mean = mu_hat, sd = sigma_hat)$statistic
 }
 
-p_ks_normal <- mean(ks_sim >= ks.test(r, "pnorm", mu = mu_hat, sigma = sigma_hat)$statistic)
+p_ks_normal <- mean(ks_sim >= ks_stat_normal)
 
 cat_col(sprintf("  KS statistic (Normal): %.4f\n", ks_stat_normal), "cyan")
 cat_col(sprintf("  Simulated p-value (Normal, param-estimated): %.4f (> 0.05)\n", p_ks_normal), "cyan")
-cat_col(sprintf("  Note: The p-value is estimated by simulation (parametric"), "cyan")
-cat_col(sprintf("  bootstrap under the fitted Normal model)."), "cyan")
+cat_col("  Note: The p-value is estimated by simulation (parametric\n", "cyan")
+cat_col("  bootstrap under the fitted Normal model).\n", "cyan")
 
 # KS for Student-t
 ks_stat_t <- ks.test(r, function(x) pt((x - mu_t) / scale_t, df_t))$statistic
@@ -200,7 +198,7 @@ write_csv(gof_summary,
 print_table(gof_summary, caption = "Goodness-of-fit tests — representative stock")
 
 cat_col("\n  INTERPRETATION:", "white")
-cat_col(sprintf("    p > 0.05: no statistically significant departure from the model.", "white"))
-cat_col(sprintf("    p <= 0.05: statistically significant departure, but with n = %d,\n", n))
-cat_col(sprintf("    such departures are expected even if the model is approximately right.", "white"))
-cat_col(sprintf("    REPORT BOTH the p-values AND the practical interpretation.", "white"))
+cat_col("    p > 0.05: no statistically significant departure from the model.\n", "white")
+cat_col(sprintf("    p <= 0.05: statistically significant departure, but with n = %d,\n", n), "white")
+cat_col("    such departures are expected even if the model is approximately right.\n", "white")
+cat_col("    REPORT BOTH the p-values AND the practical interpretation.\n", "white")
