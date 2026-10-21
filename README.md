@@ -227,6 +227,35 @@ This generates the HTML report in `report/`.
 
 ---
 
+## Generate the PowerPoint Presentation
+
+A reproducible presentation script is provided at:
+
+- `presentation/generate_stock_volatility_ppt.py`
+
+It creates:
+
+- `output/Stock_volatility_analysis.pptx`
+
+### Dependencies
+
+Install Python package:
+
+```bash
+python -m pip install python-pptx
+```
+
+### Generation Command
+
+```bash
+python presentation/generate_stock_volatility_ppt.py
+```
+
+The script reads figures/tables already present in `output/` and populates the required
+slides using repository-grounded values only.
+
+---
+
 ## Project Structure
 
 ```
